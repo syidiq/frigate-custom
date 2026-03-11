@@ -23,7 +23,7 @@ cameras:
       width: 1280 # Lebar video (sesuaikan dengan video kamu)
       height: 720 # Tinggi video (sesuaikan dengan video kamu)
       fps: 5 # Jumlah frame per detik (cukup untuk simulasi)
-    # record:
-    #   enabled: true
-    #   retain:
-    #     days: 1 # Simpan rekaman selama 1 hari
+    record:
+      enabled: true
+      retain:
+        days: 1 # Simpan rekaman selama 1 hari
