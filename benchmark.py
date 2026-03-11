@@ -16,7 +16,7 @@ my_frame = np.expand_dims(np.full((300, 300, 3), 1, np.uint8), axis=0)
 labels = load_labels("/labelmap.txt")
 
 ######
-# Minimal same process runner
+# Minimal same process runner AAAAA
 ######
 # object_detector = LocalObjectDetector()
 # tensor_input = np.expand_dims(np.full((300,300,3), 0, np.uint8), axis=0)
