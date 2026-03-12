@@ -10,7 +10,7 @@ debug
 # config/*
 # !config/*.example
 models
-*.mp4
+# *.mp4
 *.db
 *.csv
 frigate/version.py
