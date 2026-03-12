@@ -16,15 +16,32 @@ cameras:
     ffmpeg:
       inputs:
         - path: /media/frigate/test_video_1.mp4 # Path video di dalam container media\test_video_1.mp4
-          input_args: -re -stream_loop -1  # Tambahkan ini agar video looping dan real-time
+          input_args: -re -stream_loop -1 -fflags +genpts # Tambahkan ini agar video looping dan real-time
           roles:
             - detect # Frigate akan mendeteksi objek di video
             - record # Frigate akan merekam video
+      
     detect:
+      enabled: true # Pastikan ini eksplisit
       width: 1280 # Lebar video (sesuaikan dengan video kamu)
       height: 720 # Tinggi video (sesuaikan dengan video kamu)
       fps: 5 # Jumlah frame per detik (cukup untuk simulasi)
+
+    objects:
+      track:
+        - person
+        - car
+        - dog # Tambahkan objek lain sesuai isi video kamu
+    
+    snapshots:
+      enabled: true # Wajib aktif agar muncul di menu 'Detections'
+      timestamp: true
+      bounding_box: true
+      retain:
+        default: 7
+    
     record:
       enabled: true
       retain:
         days: 1 # Simpan rekaman selama 1 hari
+    
