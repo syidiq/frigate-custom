@@ -11,7 +11,7 @@ ffmpeg:
   hwaccel_args: auto # Biarkan Frigate otomatis menyesuaikan hardwaremu
 
 cameras:
-  video_simulasi:
+  video_simulasi_1:
     enabled: true
     ffmpeg:
       inputs:
@@ -20,16 +20,25 @@ cameras:
           roles:
             - detect # Frigate akan mendeteksi objek di video
             - record # Frigate akan merekam video
+  video_simulasi_2:
+    enabled: true
+    ffmpeg:
+      inputs:
         - path: /media/frigate/test_video_5.mp4 # Path video di dalam container media\test_video_2.mp4
           input_args: -re -stream_loop -1 -fflags +genpts # Tambahkan ini agar video looping dan real-time
           roles:
             - detect # Frigate akan mendeteksi objek di video
             - record # Frigate akan merekam video
+  video_simulasi_3:
+    enabled: true
+    ffmpeg:
+      inputs:
         - path: /media/frigate/test_video_6.mp4 # Path video di dalam container media\test_video_2.mp4
           input_args: -re -stream_loop -1 -fflags +genpts # Tambahkan ini agar video looping dan real-time
           roles:
             - detect # Frigate akan mendeteksi objek di video
             - record # Frigate akan merekam video
+
     detect:
       enabled: true # Pastikan ini eksplisit
       width: 1280 # Lebar video (sesuaikan dengan video kamu)
