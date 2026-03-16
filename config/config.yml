@@ -5,7 +5,7 @@ mqtt:
 detectors:
   cpu:
     type: cpu
-    num_threads: 2 # Gunakan 2 core CPU (cukup untuk simulasi)
+    num_threads: 4 # Gunakan 2 core CPU (cukup untuk simulasi)
 
 ffmpeg:
   hwaccel_args: auto # Biarkan Frigate otomatis menyesuaikan hardwaremu
