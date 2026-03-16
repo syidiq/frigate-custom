@@ -10,7 +10,7 @@ detectors:
 ffmpeg:
   hwaccel_args: auto # Biarkan Frigate otomatis menyesuaikan hardwaremu
 
-cameras1:
+cameras:
   video_simulasi:
     enabled: true
     ffmpeg:
