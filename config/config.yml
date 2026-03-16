@@ -20,6 +20,31 @@ cameras:
           roles:
             - detect # Frigate akan mendeteksi objek di video
             - record # Frigate akan merekam video
+    detect:
+      enabled: true # Pastikan ini eksplisit
+      width: 1280 # Lebar video (sesuaikan dengan video kamu)
+      height: 720 # Tinggi video (sesuaikan dengan video kamu)
+      fps: 5 # Jumlah frame per detik (cukup untuk simulasi)
+
+    objects:
+      track:
+        - person
+        - car
+        - motorcycle
+        - truck
+    
+    snapshots:
+      enabled: true # Wajib aktif agar muncul di menu 'Detections'
+      timestamp: true
+      bounding_box: true
+      retain:
+        default: 7
+    
+    record:
+      enabled: true
+      retain:
+        days: 1 # Simpan rekaman selama 1 hari
+
   video_simulasi_2:
     enabled: true
     ffmpeg:
@@ -29,6 +54,32 @@ cameras:
           roles:
             - detect # Frigate akan mendeteksi objek di video
             - record # Frigate akan merekam video
+    detect:
+      enabled: true # Pastikan ini eksplisit
+      width: 1280 # Lebar video (sesuaikan dengan video kamu)
+      height: 720 # Tinggi video (sesuaikan dengan video kamu)
+      fps: 5 # Jumlah frame per detik (cukup untuk simulasi)
+
+    objects:
+      track:
+        - person
+        - car
+        - motorcycle
+        - truck
+    
+    snapshots:
+      enabled: true # Wajib aktif agar muncul di menu 'Detections'
+      timestamp: true
+      bounding_box: true
+      retain:
+        default: 7
+    
+    record:
+      enabled: true
+      retain:
+        days: 1 # Simpan rekaman selama 1 hari
+
+
   video_simulasi_3:
     enabled: true
     ffmpeg:
