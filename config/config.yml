@@ -20,24 +20,24 @@ cameras:
           roles:
             - detect # Frigate akan mendeteksi objek di video
             - record # Frigate akan merekam video
-  # video_simulasi_2:
-  #   enabled: true
-  #   ffmpeg:
-  #     inputs:
-  #       - path: /media/frigate/test_video_5.mp4 # Path video di dalam container media\test_video_2.mp4
-  #         input_args: -re -stream_loop -1 -fflags +genpts # Tambahkan ini agar video looping dan real-time
-  #         roles:
-  #           - detect # Frigate akan mendeteksi objek di video
-  #           - record # Frigate akan merekam video
-  # video_simulasi_3:
-  #   enabled: true
-  #   ffmpeg:
-  #     inputs:
-  #       - path: /media/frigate/test_video_6.mp4 # Path video di dalam container media\test_video_2.mp4
-  #         input_args: -re -stream_loop -1 -fflags +genpts # Tambahkan ini agar video looping dan real-time
-  #         roles:
-  #           - detect # Frigate akan mendeteksi objek di video
-  #           - record # Frigate akan merekam video
+  video_simulasi_2:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: /media/frigate/test_video_7.mp4 # Path video di dalam container media\test_video_2.mp4
+          input_args: -re -stream_loop -1 -fflags +genpts # Tambahkan ini agar video looping dan real-time
+          roles:
+            - detect # Frigate akan mendeteksi objek di video
+            - record # Frigate akan merekam video
+  video_simulasi_3:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: /media/frigate/test_video_6.mp4 # Path video di dalam container media\test_video_2.mp4
+          input_args: -re -stream_loop -1 -fflags +genpts # Tambahkan ini agar video looping dan real-time
+          roles:
+            - detect # Frigate akan mendeteksi objek di video
+            - record # Frigate akan merekam video
 
     detect:
       enabled: true # Pastikan ini eksplisit
@@ -49,6 +49,8 @@ cameras:
       track:
         - person
         - car
+        - motorcycle
+        - truck
     
     snapshots:
       enabled: true # Wajib aktif agar muncul di menu 'Detections'
