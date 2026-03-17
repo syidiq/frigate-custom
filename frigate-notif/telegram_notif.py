@@ -78,8 +78,8 @@ except:
 # Mulai MQTT Client =============================================================================================
 
 
-client = mqtt.Client()
-client.on_message = on_message
-client.connect(IP_SERVER, MQTT_PORT)
-client.subscribe("frigate/events")
-client.loop_forever()
+# client = mqtt.Client()
+# client.on_message = on_message
+# client.connect(IP_SERVER, MQTT_PORT)
+# client.subscribe("frigate/events")
+# client.loop_forever()
