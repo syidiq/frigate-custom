@@ -1,6 +1,6 @@
 # Ini adalah file konfigurasi Frigate untuk pemula
 mqtt:
-  host: 192.168.90.209 # IP Broker Mosquitto Anda
+  host: 172.17.0.1 # IP Broker Mosquitto Anda
   port: 1883
   # enabled: true # Kita tidak butuh MQTT untuk simulasi
 
