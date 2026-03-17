@@ -6,6 +6,7 @@ import pytz
 wib = pytz.timezone('Asia/Jakarta')
 
 # --- KONFIGURASI ---
+MQTT_BROKER = "192.168.90.209" # Sesuaikan dengan IP Broker Anda
 IP_SERVER = "45.158.10.170"  # Gunakan localhost jika berjalan di mesin yang sama
 MQTT_PORT = 1883
 FRIGATE_API_URL = f"http://{IP_SERVER}:5002/api/events"
@@ -22,7 +23,8 @@ def send_telegram(label, camera, event_id, score, start_time):
             f"📸 *Kamera:* {camera}\n"
             f"🔍 *Objek:* {label.upper()}\n"
             f"📊 *Skor:* {score * 100:.2f}%\n\n"
-            f"🔗 [Lihat Video]({FRIGATE_API_URL}/{event_id}/clip.mp4)")
+            f"🔗 [Lihat Video]({FRIGATE_API_URL}/{event_id}/clip.mp4)\n"
+            f"🔗 [Lihat Snapshot]({FRIGATE_API_URL}/{event_id}/snapshot.jpg)")
 
     # Kirim Pesan & Foto
     requests.post(url_text, data={"chat_id": TELE_CHAT_ID, "text": text, "parse_mode": "Markdown"})
@@ -47,39 +49,36 @@ def on_message(client, userdata, message):
         except:
             pass
 
+client = mqtt.Client()
+client.on_message = on_message
+client.connect(MQTT_BROKER, MQTT_PORT)
+client.subscribe("frigate/events")
+client.loop_forever()
 
 
 
-# Test Area =============================================================================================
 
-payload = {}
-headers = {'Accept': 'application/json'}
-response = requests.request("GET", FRIGATE_API_URL, headers=headers, data=payload)
+# # Test Area =============================================================================================
 
-# print(response.text)
-payload = json.loads(response.text)
-nu = 1
-event_id = payload[nu]['id']
-label = payload[nu]['label']
-camera = payload[nu]['camera']
-start_time = payload[nu]['start_time']
+# payload = {}
+# headers = {'Accept': 'application/json'}
+# response = requests.request("GET", FRIGATE_API_URL, headers=headers, data=payload)
 
-# Ambil detail via API (Requests)
-try:
-    res = requests.get(f"{FRIGATE_API_URL}/{event_id}")
-    if res.status_code == 200:
-        score = res.json().get('top_score', 0.6793)
-        send_telegram(label, camera, event_id, score, start_time)
-except:
-    pass
+# # print(response.text)
+# payload = json.loads(response.text)
+# nu = 1
+# event_id = payload[nu]['id']
+# label = payload[nu]['label']
+# camera = payload[nu]['camera']
+# start_time = payload[nu]['start_time']
 
-
-
-# Mulai MQTT Client =============================================================================================
+# # Ambil detail via API (Requests)
+# try:
+#     res = requests.get(f"{FRIGATE_API_URL}/{event_id}")
+#     if res.status_code == 200:
+#         score = res.json().get('top_score', 0.6793)
+#         send_telegram(label, camera, event_id, score, start_time)
+# except:
+#     pass
 
 
-# client = mqtt.Client()
-# client.on_message = on_message
-# client.connect(IP_SERVER, MQTT_PORT)
-# client.subscribe("frigate/events")
-# client.loop_forever()
