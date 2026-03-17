@@ -51,7 +51,10 @@ def on_message(client, userdata, message):
 
 client = mqtt.Client()
 client.on_message = on_message
-client.connect(MQTT_BROKER, MQTT_PORT)
+try:
+    client.connect(MQTT_BROKER, MQTT_PORT)
+except Exception as e:
+    print(f"Gagal terhubung ke MQTT Broker: {e}")
 client.subscribe("frigate/events")
 client.loop_forever()
 
