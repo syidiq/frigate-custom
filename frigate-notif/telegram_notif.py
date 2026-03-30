@@ -13,7 +13,8 @@ FRIGATE_API_URL = f"http://{IP_SERVER}:5002/api/events"
 
 # --- CONFIG TELEGRAM ---
 TELE_TOKEN = "7972577129:AAEzm6U7ZZyIvL-GxuD6lZJrj2zQzt7Rb7s"
-TELE_CHAT_ID = "5997051893"
+TELE_CHAT_ID = "-5216156976"
+# "5997051893"
 
 def send_telegram(label, camera, event_id, score, start_time):
     time_wib = datetime.fromtimestamp(start_time, wib).strftime("%H:%M:%S %d/%m/%Y")
