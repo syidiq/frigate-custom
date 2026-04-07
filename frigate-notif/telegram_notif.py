@@ -10,6 +10,7 @@ MQTT_BROKER = "127.0.0.1" # "192.168.90.209" # Sesuaikan dengan IP Broker Anda
 IP_SERVER = "45.158.10.170"  # Gunakan localhost jika berjalan di mesin yang sama
 MQTT_PORT = 1883
 FRIGATE_API_URL = f"http://{IP_SERVER}:5000/api/events"
+FRIGATE_API_URL_LOCAL = f"http://{MQTT_BROKER}:5001/api/events"
 
 # --- CONFIG TELEGRAM ---
 TELE_TOKEN = "7972577129:AAEzm6U7ZZyIvL-GxuD6lZJrj2zQzt7Rb7s"
@@ -44,9 +45,9 @@ def on_message(client, userdata, message):
 
         # Ambil detail via API (Requests)
         try:
-            res = requests.get(f"{FRIGATE_API_URL}/{event_id}")
+            res = requests.get(f"{FRIGATE_API_URL_LOCAL}/{event_id}")
             if res.status_code == 200:
-                score = res.json().get('top_score', 0)
+                score = res.json().get('data').get('top_score',0)
                 send_telegram(label, camera, event_id, score, start_time)
         except:
             pass
