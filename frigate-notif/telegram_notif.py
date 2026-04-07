@@ -9,7 +9,7 @@ wib = pytz.timezone('Asia/Jakarta')
 MQTT_BROKER = "127.0.0.1" # "192.168.90.209" # Sesuaikan dengan IP Broker Anda
 IP_SERVER = "45.158.10.170"  # Gunakan localhost jika berjalan di mesin yang sama
 MQTT_PORT = 1883
-FRIGATE_API_URL = f"http://{IP_SERVER}:5002/api/events"
+FRIGATE_API_URL = f"http://{IP_SERVER}:5000/api/events"
 
 # --- CONFIG TELEGRAM ---
 TELE_TOKEN = "7972577129:AAEzm6U7ZZyIvL-GxuD6lZJrj2zQzt7Rb7s"
