@@ -4,13 +4,39 @@ mqtt:
   port: 1883
   # enabled: true # Kita tidak butuh MQTT untuk simulasi
 
+
+# Pilih NVIDIA GPU (device 0) - RTX 4070 Ti SUPER
 detectors:
-  cpu:
-    type: cpu
-    num_threads: 4 # Gunakan 2 core CPU (cukup untuk simulasi)
+  tensorrt:
+    type: tensorrt
+    device: 0  # Wajib jika ada multiple GPU
+
+# ============================================
+# Face Recognition Configuration ⭐
+# ============================================
+face_recognition:
+  enabled: true
+  # Model size: 'large' untuk GPU (lebih akurat), 'small' untuk CPU
+  model_size: large
+  recognition_threshold: 0.9
+  min_faces: 1
+  unknown_score: 0.8
+  min_area: 500
+  detection_threshold: 0.7
+  # Gunakan GPU untuk face recognition
+  device: 0  # Pake GPU yang sama
+
+# ============================================
+# Optional: GenAI untuk deskripsi tambahan
+# ==========================================
+genai:
+  enabled: false  # Bisa enable jika mau deskripsi AI
+  provider: ollama
+  model: llava
+
 
 ffmpeg:
-  hwaccel_args: auto # Biarkan Frigate otomatis menyesuaikan hardwaremu
+  hwaccel_args: preset-nvidia # Biarkan Frigate otomatis menyesuaikan hardwaremu
 
 cameras:
   video_simulasi_1:
@@ -34,6 +60,7 @@ cameras:
         - car
         - motorcycle
         - truck
+        - face # Tambahkan ini untuk deteksi wajah
     
     snapshots:
       enabled: true # Wajib aktif agar muncul di menu 'Detections'
@@ -46,6 +73,11 @@ cameras:
       enabled: true
       retain:
         days: 1 # Simpan rekaman selama 1 hari
+      # Alerts hanya untuk event dengan sub_label tertentu
+      events:
+        retain:
+          default: 7
+          mode: active_objects
 
   # video_simulasi_2:
   #   enabled: true
