@@ -5,11 +5,11 @@ mqtt:
   # enabled: true # Kita tidak butuh MQTT untuk simulasi
 
 
-# Pilih NVIDIA GPU (device 0) - RTX 4070 Ti SUPER
+# Atau jika pakai ONNX dan ingin pilih GPU spesifik:
 detectors:
-  tensorrt:
-    type: tensorrt
-    device: 0  # Wajib jika ada multiple GPU
+  onnx:
+    type: onnx
+    device: 0  # 0 = NVIDIA, 1 = AMD iGPU
 
 # # ============================================
 # # Face Recognition Configuration ⭐
@@ -36,7 +36,7 @@ detectors:
 
 
 ffmpeg:
-  hwaccel_args: preset-nvidia # Biarkan Frigate otomatis menyesuaikan hardwaremu
+  hwaccel_args: auto # Biarkan Frigate otomatis menyesuaikan hardwaremu
 
 cameras:
   video_simulasi_1:
@@ -60,7 +60,6 @@ cameras:
         - car
         - motorcycle
         - truck
-        - face # Tambahkan ini untuk deteksi wajah
     
     snapshots:
       enabled: true # Wajib aktif agar muncul di menu 'Detections'
