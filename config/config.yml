@@ -69,6 +69,19 @@ cameras:
           mode: all # <--- Atau 'all' jika ingin lebih agresif
         draw_objects: true # Agar kotak hijau muncul di hasil rekaman
         draw_zones: true   # Agar area mask/zone muncul di hasil rekaman
+    zones:
+      zona_restriction:
+        coordinates: 0.537,0.359,0.601,0.321,0.617,0.698,0.534,0.738
+        loitering_time: 0
+    motion:
+      mask:
+        - 0.013,0.107,0.304,0.097,0.302,0.042,0.01,0.032
+        - 0.722,0.873,0.828,0.872,0.841,0.932,0.718,0.94
+    review:
+      alerts:
+        required_zones: zona_restriction
+      detections:
+        required_zones: zona_restriction
 
   # video_simulasi_2:
   #   enabled: true
