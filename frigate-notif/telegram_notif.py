@@ -52,10 +52,11 @@ def on_message(client, userdata, message):
         except:
             pass
 
+
 client = mqtt.Client()
 client.on_message = on_message
 try:
-    client.connect(IP_SERVER, MQTT_PORT)
+    client.connect(MQTT_BROKER, MQTT_PORT)
 except Exception as e:
     print(f"Gagal terhubung ke MQTT Broker: {e}")
 client.subscribe("frigate/events")

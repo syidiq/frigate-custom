@@ -1,20 +1,22 @@
 # Ini adalah file konfigurasi Frigate untuk pemula
 mqtt:
-  host: 172.0.0.1 # IP Broker Mosquitto Anda
+  host: 172.17.0.1 # IP Broker Mosquitto Anda
   port: 1883
+  topic_prefix: frigate
+
   # enabled: true # Kita tidak butuh MQTT untuk simulasi
 
 
-# # Atau jika pakai ONNX dan ingin pilih GPU spesifik:
-# detectors:
-#   onnx:
-#     type: onnx
-#     device: 0  # 0 = NVIDIA, 1 = AMD iGPU
-
+# Atau jika pakai ONNX dan ingin pilih GPU spesifik:
 detectors:
-  cpu:
-    type: cpu
-    num_threads: 4 # Gunakan 2 core CPU (cukup untuk simulasi)
+  onnx:
+    type: onnx
+    device: 0  # 0 = NVIDIA, 1 = AMD iGPU
+
+# detectors:
+#   cpu:
+#     type: cpu
+#     num_threads: 4 # Gunakan 2 core CPU (cukup untuk simulasi)
 
 ffmpeg:
   hwaccel_args: auto # Biarkan Frigate otomatis menyesuaikan hardwaremu
@@ -53,6 +55,13 @@ cameras:
       enabled: true
       retain:
         days: 1 # Simpan rekaman selama 1 hari
+        mode: all
+      events:
+        retain:
+          default: 1
+          mode: all # <--- Atau 'all' jika ingin lebih agresif
+        draw_objects: true # Agar kotak hijau muncul di hasil rekaman
+        draw_zones: true   # Agar area mask/zone muncul di hasil rekaman
 
   # video_simulasi_2:
   #   enabled: true
