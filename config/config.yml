@@ -6,10 +6,10 @@ mqtt:
 
   # enabled: true # Kita tidak butuh MQTT untuk simulasi
 
-detectors:
-  ov:
-    type: openvino
-    device: GPU # or NPU
+# detectors:
+#   ov:
+#     type: openvino
+#     device: GPU # or NPU
 
 # model:
 #   model_type: yolo-generic
@@ -20,10 +20,10 @@ detectors:
 #   path: /config/model_cache/yolo.onnx
 #   labelmap_path: /labelmap/coco-80.txt
 
-# detectors:
-#   cpu:
-#     type: cpu
-#     num_threads: 4 # Gunakan 2 core CPU (cukup untuk simulasi)
+detectors:
+  cpu:
+    type: cpu
+    num_threads: 4 # Gunakan 2 core CPU (cukup untuk simulasi)
 
 ffmpeg:
   hwaccel_args: auto # Biarkan Frigate otomatis menyesuaikan hardwaremu
