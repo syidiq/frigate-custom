@@ -14,7 +14,7 @@ FRIGATE_API_URL_LOCAL = f"http://{MQTT_BROKER}:5001/api/events"
 
 # --- CONFIG TELEGRAM ---
 TELE_TOKEN = "7972577129:AAEzm6U7ZZyIvL-GxuD6lZJrj2zQzt7Rb7s"
-TELE_CHAT_ID = "5997051893"
+TELE_CHAT_ID = "-5216156976"
 # "-5216156976" group telegram
 # "5997051893" personlal telegram
 
