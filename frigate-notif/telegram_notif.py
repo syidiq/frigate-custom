@@ -12,9 +12,9 @@ MQTT_PORT = 1883
 FRIGATE_API_URL = f"http://{IP_SERVER}:5000/api/events"
 FRIGATE_API_URL_LOCAL = f"http://{MQTT_BROKER}:5001/api/events"
 
-FRIGATE_API_URL_LOCAL_1 = f"http://127.0.0.1:5001/api/events"
-FRIGATE_API_URL_LOCAL_2 = f"http://{MQTT_BROKER}:5000/api/events"
-FRIGATE_API_URL_LOCAL_3 = f"http://{IP_SERVER}:5000/api/events"
+# FRIGATE_API_URL_LOCAL_1 = f"http://127.0.0.1:5001/api/events"
+# FRIGATE_API_URL_LOCAL_2 = f"http://{MQTT_BROKER}:5000/api/events"
+# FRIGATE_API_URL_LOCAL_3 = f"http://{IP_SERVER}:5000/api/events"
 
 
 
@@ -40,15 +40,23 @@ def send_telegram(label, camera, event_id, score, start_time):
     requests.post(f"https://api.telegram.org/bot{TELE_TOKEN}/sendPhoto",
                   data={"chat_id": TELE_CHAT_ID, "photo": f"{FRIGATE_API_URL}/{event_id}/snapshot.jpg"})
 
+sent_events = set()
+
 def on_message(client, userdata, message):
     payload = json.loads(message.payload)
     print(payload)
     if payload['type'] in ['new', 'update']: ##== 'new': # Hanya kirim saat objek pertama kali terdeteksi
         event_id = payload['after']['id']
+
+
+        if event_id in sent_events:
+            print(f"Event {event_id} sudah pernah dikirim, skip")
+            return
+
         label = payload['after']['label']
         camera = payload['after']['camera']
         start_time = payload['after']['start_time']
-        
+
         after = payload['after']
         # Cek apakah sudah memiliki snapshot
         if not after.get('has_snapshot'):
@@ -67,18 +75,20 @@ def on_message(client, userdata, message):
                 print("API Local 0 berhasil diakses","\n")
                 score = res.json().get('data').get('top_score',0)
                 send_telegram(label, camera, event_id, score, start_time)
-            elif requests.get(f"{FRIGATE_API_URL_LOCAL_1}/{event_id}").status_code == 200:
-                print("API Local 1 berhasil diakses","\n")
-                score = res.json().get('data').get('top_score',0)
-                send_telegram(label, camera, event_id, score, start_time)
-            elif requests.get(f"{FRIGATE_API_URL_LOCAL_2}/{event_id}").status_code == 200:
-                print("API Local 2 berhasil diakses","\n")
-                score = res.json().get('data').get('top_score',0)
-                send_telegram(label, camera, event_id, score, start_time)
-            elif requests.get(f"{FRIGATE_API_URL_LOCAL_3}/{event_id}").status_code == 200:
-                print("API Local 3 berhasil diakses","\n")
-                score = res.json().get('data').get('top_score',0)
-                send_telegram(label, camera, event_id, score, start_time)
+                sent_events.add(event_id)
+                
+            # elif requests.get(f"{FRIGATE_API_URL_LOCAL_1}/{event_id}").status_code == 200:
+            #     print("API Local 1 berhasil diakses","\n")
+            #     score = res.json().get('data').get('top_score',0)
+            #     send_telegram(label, camera, event_id, score, start_time)
+            # elif requests.get(f"{FRIGATE_API_URL_LOCAL_2}/{event_id}").status_code == 200:
+            #     print("API Local 2 berhasil diakses","\n")
+            #     score = res.json().get('data').get('top_score',0)
+            #     send_telegram(label, camera, event_id, score, start_time)
+            # elif requests.get(f"{FRIGATE_API_URL_LOCAL_3}/{event_id}").status_code == 200:
+            #     print("API Local 3 berhasil diakses","\n")
+            #     score = res.json().get('data').get('top_score',0)
+            #     send_telegram(label, camera, event_id, score, start_time)
             else:
                 print("Gagal mengakses API Frigate untuk event_id:", event_id,"\n")
 
