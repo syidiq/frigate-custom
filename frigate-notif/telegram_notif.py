@@ -12,10 +12,6 @@ MQTT_PORT = 1883
 FRIGATE_API_URL = f"http://{IP_SERVER}:5000/api/events"
 FRIGATE_API_URL_LOCAL = f"http://{MQTT_BROKER}:5001/api/events"
 
-# FRIGATE_API_URL_LOCAL_1 = f"http://127.0.0.1:5001/api/events"
-# FRIGATE_API_URL_LOCAL_2 = f"http://{MQTT_BROKER}:5000/api/events"
-# FRIGATE_API_URL_LOCAL_3 = f"http://{IP_SERVER}:5000/api/events"
-
 
 
 # --- CONFIG TELEGRAM ---
@@ -29,6 +25,7 @@ def send_telegram(label, camera, event_id, score, start_time):
 
     url_text = f"https://api.telegram.org/bot{TELE_TOKEN}/sendMessage"
     text = (f"🚨 *DETEKSI BARU {time_wib} *\n\n"
+            f"📌 *ID-Object:* {event_id}\n"
             f"📸 *Kamera:* {camera}\n"
             f"🔍 *Objek:* {label.upper()}\n"
             f"📊 *Skor:* {score * 100:.2f}%\n\n"
@@ -76,19 +73,6 @@ def on_message(client, userdata, message):
                 score = res.json().get('data').get('top_score',0)
                 send_telegram(label, camera, event_id, score, start_time)
                 sent_events.add(event_id)
-                
-            # elif requests.get(f"{FRIGATE_API_URL_LOCAL_1}/{event_id}").status_code == 200:
-            #     print("API Local 1 berhasil diakses","\n")
-            #     score = res.json().get('data').get('top_score',0)
-            #     send_telegram(label, camera, event_id, score, start_time)
-            # elif requests.get(f"{FRIGATE_API_URL_LOCAL_2}/{event_id}").status_code == 200:
-            #     print("API Local 2 berhasil diakses","\n")
-            #     score = res.json().get('data').get('top_score',0)
-            #     send_telegram(label, camera, event_id, score, start_time)
-            # elif requests.get(f"{FRIGATE_API_URL_LOCAL_3}/{event_id}").status_code == 200:
-            #     print("API Local 3 berhasil diakses","\n")
-            #     score = res.json().get('data').get('top_score',0)
-            #     send_telegram(label, camera, event_id, score, start_time)
             else:
                 print("Gagal mengakses API Frigate untuk event_id:", event_id,"\n")
 
@@ -108,28 +92,5 @@ client.loop_forever()
 
 
 
-
-# # Test Area =============================================================================================
-
-# payload = {}
-# headers = {'Accept': 'application/json'}
-# response = requests.request("GET", FRIGATE_API_URL, headers=headers, data=payload)
-
-# # print(response.text)
-# payload = json.loads(response.text)
-# nu = 1
-# event_id = payload[nu]['id']
-# label = payload[nu]['label']
-# camera = payload[nu]['camera']
-# start_time = payload[nu]['start_time']
-
-# # Ambil detail via API (Requests)
-# try:
-#     res = requests.get(f"{FRIGATE_API_URL}/{event_id}")
-#     if res.status_code == 200:
-#         score = res.json().get('top_score', 0.6793)
-#         send_telegram(label, camera, event_id, score, start_time)
-# except:
-#     pass
 
 
