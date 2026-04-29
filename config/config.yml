@@ -5,7 +5,7 @@ mqtt:
   topic_prefix: frigate
 
   # enabled: true # Kita tidak butuh MQTT untuk simulasi
-  
+
 detectors:
   cpu:
     type: cpu
@@ -55,13 +55,13 @@ cameras:
       alerts:
         retain:
           days: 1
-          mode: motion
+          mode: all # Hanya simpan video dengan motion, hapus setelah 1 hari
         pre_capture: 5  # Rekam 5 detik SEBELUM alert
         post_capture: 5 # Rekam 5 detik SETELAH alert
       detections:
         retain:
           days: 1
-          mode: motion
+          mode: all
         pre_capture: 5  # Rekam 5 detik SEBELUM deteksi
         post_capture: 5 # Rekam 5 detik SETELAH deteksi
     
