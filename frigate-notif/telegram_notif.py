@@ -12,9 +12,15 @@ MQTT_PORT = 1883
 FRIGATE_API_URL = f"http://{IP_SERVER}:5000/api/events"
 FRIGATE_API_URL_LOCAL = f"http://{MQTT_BROKER}:5001/api/events"
 
+FRIGATE_API_URL_LOCAL_1 = f"http://127.0.0.1:5001/api/events"
+FRIGATE_API_URL_LOCAL_2 = f"http://{MQTT_BROKER}:5000/api/events"
+FRIGATE_API_URL_LOCAL_3 = f"http://{IP_SERVER}:5000/api/events"
+
+
+
 # --- CONFIG TELEGRAM ---
 TELE_TOKEN = "7972577129:AAEzm6U7ZZyIvL-GxuD6lZJrj2zQzt7Rb7s"
-TELE_CHAT_ID = "-5216156976"
+TELE_CHAT_ID = "5997051893"
 # "-5216156976" group telegram
 # "5997051893" personlal telegram
 
@@ -47,9 +53,26 @@ def on_message(client, userdata, message):
         try:
             res = requests.get(f"{FRIGATE_API_URL_LOCAL}/{event_id}")
             if res.status_code == 200:
+                print("API Local 0 berhasil diakses","\n")
                 score = res.json().get('data').get('top_score',0)
                 send_telegram(label, camera, event_id, score, start_time)
+            elif requests.get(f"{FRIGATE_API_URL_LOCAL_1}/{event_id}").status_code == 200:
+                print("API Local 1 berhasil diakses","\n")
+                score = res.json().get('data').get('top_score',0)
+                send_telegram(label, camera, event_id, score, start_time)
+            elif requests.get(f"{FRIGATE_API_URL_LOCAL_2}/{event_id}").status_code == 200:
+                print("API Local 2 berhasil diakses","\n")
+                score = res.json().get('data').get('top_score',0)
+                send_telegram(label, camera, event_id, score, start_time)
+            elif requests.get(f"{FRIGATE_API_URL_LOCAL_3}/{event_id}").status_code == 200:
+                print("API Local 3 berhasil diakses","\n")
+                score = res.json().get('data').get('top_score',0)
+                send_telegram(label, camera, event_id, score, start_time)
+            else:
+                print("Gagal mengakses API Frigate untuk event_id:", event_id,"\n")
+
         except:
+            print("Terjadi kesalahan saat mengakses API Frigate untuk event_id:", event_id,"\n")
             pass
 
 
