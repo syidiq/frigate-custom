@@ -20,7 +20,7 @@ FRIGATE_API_URL_LOCAL_3 = f"http://{IP_SERVER}:5000/api/events"
 
 # --- CONFIG TELEGRAM ---
 TELE_TOKEN = "7972577129:AAEzm6U7ZZyIvL-GxuD6lZJrj2zQzt7Rb7s"
-TELE_CHAT_ID = "5997051893"
+TELE_CHAT_ID = "-5216156976"
 # "-5216156976" group telegram
 # "5997051893" personlal telegram
 
@@ -43,11 +43,22 @@ def send_telegram(label, camera, event_id, score, start_time):
 def on_message(client, userdata, message):
     payload = json.loads(message.payload)
     print(payload)
-    if payload['type'] == 'new': # Hanya kirim saat objek pertama kali terdeteksi
+    if payload['type'] in ['new', 'update']: ##== 'new': # Hanya kirim saat objek pertama kali terdeteksi
         event_id = payload['after']['id']
         label = payload['after']['label']
         camera = payload['after']['camera']
         start_time = payload['after']['start_time']
+        
+        after = payload['after']
+        # Cek apakah sudah memiliki snapshot
+        if not after.get('has_snapshot'):
+            print(f"Event {after['id']} belum memiliki snapshot, tunggu update berikutnya")
+            return
+        
+        # Cek apakah objek masuk zona
+        if len(after.get('entered_zones', [])) == 0:
+            print(f"Event {after['id']} tidak masuk zona, skip")
+            return
 
         # Ambil detail via API (Requests)
         try:
