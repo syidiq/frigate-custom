@@ -5,21 +5,7 @@ mqtt:
   topic_prefix: frigate
 
   # enabled: true # Kita tidak butuh MQTT untuk simulasi
-
-# detectors:
-#   ov:
-#     type: openvino
-#     device: GPU # or NPU
-
-# model:
-#   model_type: yolo-generic
-#   width: 320 # <--- should match the imgsize set during model export
-#   height: 320 # <--- should match the imgsize set during model export
-#   input_tensor: nchw
-#   input_dtype: float
-#   path: /config/model_cache/yolo.onnx
-#   labelmap_path: /labelmap/coco-80.txt
-
+  
 detectors:
   cpu:
     type: cpu
@@ -67,16 +53,12 @@ cameras:
       motion:
         days: 1  # Rekam video dengan motion, tapi hapus setelah 1 hari
       alerts:
-        required_zones:
-          - zona_restriction
         retain:
           days: 1
           mode: motion
         pre_capture: 5  # Rekam 5 detik SEBELUM alert
         post_capture: 5 # Rekam 5 detik SETELAH alert
       detections:
-        required_zones:
-          - zona_restriction
         retain:
           days: 1
           mode: motion
